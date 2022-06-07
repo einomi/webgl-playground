@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>
+      {% block title %}{% endblock %} | frōntensō</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    {% block stylesheets %}
+      <link rel="stylesheet" href="{{ STATIC_PATH }}/css/tailwind.css">
+      <link rel="stylesheet" href="{{ STATIC_PATH }}/css/styles.css">
+    {% endblock stylesheets %}
+  </head>
+  <body>
+    {% svg_sprite %}
+
+    {% block content %}{% endblock content %}
+
+    {% block scripts %}
+      <script src="{{ STATIC_PATH }}/js/bundle.js"></script>
+    {% endblock scripts %}
+  </body>
+</html>
