@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 import testVertexShader from '../shaders/test/vertex.glsl';
 import testFragmentShader from '../shaders/test/fragment.glsl';
@@ -10,7 +11,7 @@ const canvas = /** @type {HTMLCanvasElement} */ (
 const scene = new THREE.Scene();
 
 // Geometry
-const geometry = new THREE.PlaneGeometry(4.5, 3.4, 32, 32);
+const geometry = new THREE.PlaneGeometry(1, 1, 32, 32);
 
 // Material
 const material = new THREE.ShaderMaterial({
@@ -27,7 +28,7 @@ const material = new THREE.ShaderMaterial({
 const mesh = new THREE.Mesh(geometry, material);
 mesh.rotation.x = -0.1;
 mesh.rotation.y = -0.2;
-mesh.position.x = -0.25;
+// mesh.position.x = -0.25;
 scene.add(mesh);
 
 const sizes = {
@@ -44,7 +45,7 @@ window.addEventListener('resize', () => {
 
   renderer.setSize(sizes.width, sizes.height);
 
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 3));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
 const camera = new THREE.PerspectiveCamera(
@@ -63,20 +64,20 @@ const renderer = new THREE.WebGLRenderer({
   canvas,
 });
 renderer.setSize(sizes.width, sizes.height);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setPixelRatio(2);
 
-const clock = new THREE.Clock();
+// const clock = new THREE.Clock();
 
 // Controls
-// const controls = new OrbitControls(camera, canvas)
-// controls.enableDamping = true
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
 
 const tick = () => {
-  const elapsedTime = clock.getElapsedTime();
+  // const elapsedTime = clock.getElapsedTime();
 
   // controls.update()
 
-  mesh.rotation.z = -0.2 * elapsedTime;
+  // mesh.rotation.z = -0.2 * elapsedTime;
 
   renderer.render(scene, camera);
 
