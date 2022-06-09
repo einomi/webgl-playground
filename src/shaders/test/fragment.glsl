@@ -1,6 +1,7 @@
 #define PI 3.1415926535897932384626433832795
 
 varying vec2 vUv;
+uniform float uTime;
 
 float random(vec2 st)
 {
@@ -237,7 +238,7 @@ void main()
     // float strength = 1.0 - step(0.01, abs(distance(vUv, vec2(0.5)) - radius));
 
     // // Pattern 46
-     float strength = cnoise(vUv * 10.0);
+//     float strength = cnoise(vUv * 10.0);
 
     // // Pattern 47
 //     float strength = step(0.0, cnoise(vUv * 10.0));
@@ -250,6 +251,8 @@ void main()
 
     // Pattern 50
 //    float strength = step(0.9, sin(cnoise(vUv * 10.0) * 20.0));
+
+    float strength = 1.0 - step(0.01, abs(distance(vUv, vec2(0.5 + 0.1 * cos(uTime * 0.5), 0.5 + 0.1 * sin(uTime * 0.5))) - 0.1)) ;
 
     // Final color
     vec3 blackColor = vec3(0.0);

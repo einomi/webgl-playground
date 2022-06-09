@@ -11,13 +11,16 @@ const canvas = /** @type {HTMLCanvasElement} */ (
 const scene = new THREE.Scene();
 
 // Geometry
-const geometry = new THREE.PlaneGeometry(1, 1, 32, 32);
+const geometry = new THREE.PlaneGeometry(2, 2, 32, 32);
 
 // Material
 const material = new THREE.ShaderMaterial({
   vertexShader: testVertexShader,
   fragmentShader: testFragmentShader,
   side: THREE.DoubleSide,
+  uniforms: {
+    uTime: { value: 0 },
+  },
 });
 
 // const material = new THREE.MeshBasicMaterial()
@@ -26,8 +29,8 @@ const material = new THREE.ShaderMaterial({
 
 // Mesh
 const mesh = new THREE.Mesh(geometry, material);
-mesh.rotation.x = -0.1;
-mesh.rotation.y = -0.2;
+// mesh.rotation.x = -0.1;
+// mesh.rotation.y = -0.2;
 // mesh.position.x = -0.25;
 scene.add(mesh);
 
@@ -66,16 +69,17 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(2);
 
-// const clock = new THREE.Clock();
-
 // Controls
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 
-const tick = () => {
-  // const elapsedTime = clock.getElapsedTime();
+const clock = new THREE.Clock();
+let elapsedTime = 0;
 
+const tick = () => {
   // controls.update()
+  elapsedTime = clock.getElapsedTime();
+  material.uniforms.uTime.value = elapsedTime;
 
   // mesh.rotation.z = -0.2 * elapsedTime;
 
