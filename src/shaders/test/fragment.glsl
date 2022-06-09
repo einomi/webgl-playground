@@ -252,7 +252,7 @@ void main()
     // Pattern 50
 //    float strength = step(0.9, sin(cnoise(vUv * 10.0) * 20.0));
 
-    float strength = 1.0 - step(0.01, abs(distance(vUv, vec2(0.5 + 0.1 * cos(uTime * 0.5), 0.5 + 0.1 * sin(uTime * 0.5))) - 0.1)) ;
+    float strength = 1.0 - step((sin(uTime) + 0.1) * 0.005 + 0.01, abs(distance(vUv, vec2(0.5 + 0.1 * cos(uTime * 1.0), 0.5 + 0.1 * sin(uTime * 1.0))) - 0.1)) ;
 
     // Final color
     vec3 blackColor = vec3(0.0);
