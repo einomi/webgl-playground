@@ -14,7 +14,7 @@ const light = new THREE.HemisphereLight(0xd6e6ff, 0xa38c08, 1);
 scene.add(light);
 
 // Geometry
-const geometry = new THREE.PlaneGeometry(800, 800, 128, 128);
+const geometry = new THREE.PlaneGeometry(600, 600, 128, 128);
 
 // Material
 const material = new THREE.ShaderMaterial({
@@ -29,9 +29,9 @@ const material = new THREE.ShaderMaterial({
 // Mesh
 const mesh = new THREE.Mesh(geometry, material);
 // mesh.rotation.x = -0.03;
-mesh.rotation.y = -0.01;
+// mesh.rotation.y = -0.01;
 // mesh.rotation.z = -0.03;
-mesh.position.x = -0.25;
+// mesh.position.x = -0.25;
 mesh.position.z = 400;
 scene.add(mesh);
 
@@ -41,7 +41,7 @@ smokeTexture.encoding = THREE.sRGBEncoding;
 const smokeGeometry = new THREE.PlaneGeometry(300, 300);
 const smokeMaterial = new THREE.MeshLambertMaterial({
   map: smokeTexture,
-  emissive: 0x333,
+  emissive: 0x111,
   opacity: 0.1,
   transparent: true,
 });
@@ -113,9 +113,9 @@ const tick = () => {
   elapsedTime = clock.getElapsedTime();
   material.uniforms.uTime.value = elapsedTime;
 
-  const scale = Math.sin(elapsedTime) * 0.05 + 1;
-  mesh.scale.x = scale;
-  mesh.scale.y = scale;
+  // const scale = Math.sin(elapsedTime) * 0.05 + 1;
+  // mesh.scale.x = scale;
+  // mesh.scale.y = scale;
 
   smokeElements.forEach((smokeElement) => {
     smokeElement.rotation.z = elapsedTime * 0.12;
