@@ -1,2 +1,2 @@
-import './challenges/01/circle-in-the-centre-of-screen';
+import './challenges/02/rectangle';
 import './fake-image';
