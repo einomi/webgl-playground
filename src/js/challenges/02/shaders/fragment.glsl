@@ -5,11 +5,11 @@ varying vec3 vPosition;
 uniform float uTime;
 
 void main(void ) {
-  //  vec3 color = vec3(vPosition.x, vPosition.y, 0.0);
-  float size = 2.0;
-  float strengthX =
-    step(-size, 1.0 - vPosition.x) + step(size, 1.0 - vPosition.x);
-  float strengthY =
-    step(-size, 1.0 - vPosition.y) + step(size, 1.0 - vPosition.y);
-  gl_FragColor = vec4(vec2(strengthX * strengthY), 0.0, 1.0);
+  vec2 size = vec2(1.0);
+  vec2 center = vec2(3.0);
+  vec2 squarePos = vPosition.xy - center;
+  float horz = step(-size.x, squarePos.x) - step(size.x, squarePos.x);
+  float vert = step(-size.y, squarePos.y) - step(size.y, squarePos.y);
+  float result = horz * vert;
+  gl_FragColor = vec4(vec3(1.0, 1.0, 0.0) * result, 1.0);
 }

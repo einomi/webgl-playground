@@ -13,7 +13,7 @@ const light = new THREE.HemisphereLight(0xd6e6ff, 0xa38c08, 1);
 scene.add(light);
 
 // Geometry
-const geometry = new THREE.PlaneGeometry(2, 2);
+const geometry = new THREE.PlaneGeometry(20, 20);
 
 // Material
 const material = new THREE.ShaderMaterial({
