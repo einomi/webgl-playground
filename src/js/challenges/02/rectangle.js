@@ -53,8 +53,14 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(2);
 
+const clock = new THREE.Clock();
+let elapsedTime = 0;
+
 const tick = () => {
   window.requestAnimationFrame(tick);
+
+  elapsedTime = clock.getElapsedTime();
+  material.uniforms.uTime.value = elapsedTime;
 
   renderer.render(scene, camera);
 };
