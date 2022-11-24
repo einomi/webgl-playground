@@ -19,13 +19,18 @@ mat2 getRotationMatrix(float theta) {
   return mat2(c, -s, s, c);
 }
 
+mat2 getScaleMatrix(float scale) {
+  return mat2(scale, 0, 0, scale);
+}
+
 void main(void ) {
-  mat2 mat1 = getRotationMatrix(uTime);
+  mat2 rotationMatrix = getRotationMatrix(uTime);
+  mat2 scaleMatrix = getScaleMatrix((sin(uTime) + 1.0) / 3.0 + 0.5);
   vec2 center1 = vec2(-3.0, 0.0);
-  vec2 pt1 = mat1 * (vPosition.xy - center1) + center1;
-  mat2 matSecond = getRotationMatrix(-uTime);
+  vec2 pt1 = rotationMatrix * scaleMatrix * (vPosition.xy - center1) + center1;
+  mat2 rotationMatrix2 = getRotationMatrix(-uTime);
   vec2 center2 = vec2(3.0, -1.0);
-  vec2 pt2 = matSecond * (vPosition.xy - center2) + center2;
+  vec2 pt2 = rotationMatrix2 * (vPosition.xy - center2) + center2;
   vec3 square1 = vec3(1.0, 1.0, 0.0) * inRect(pt1, vec2(0.7), center1);
   vec3 square2 = vec3(0.0, 0.0, 1.0) * inRect(pt2, vec2(1.0), center2);
   gl_FragColor = vec4(square1 + square2, 1.0);
