@@ -24,7 +24,7 @@ mat2 getScaleMatrix(float scale) {
 }
 
 void main(void ) {
-  float tileCount = 6.0;
+  float tileCount = 15.0;
   mat2 rotationMatrix = getRotationMatrix(uTime);
   mat2 scaleMatrix = getScaleMatrix((sin(uTime) + 1.0) / 3.0 + 0.5);
   vec2 center1 = vec2(-3.0, 0.0);
@@ -34,6 +34,6 @@ void main(void ) {
   vec2 center2 = vec2(0.5);
   vec2 pt2 = rotationMatrix2 * (p - center2) + center2;
   vec3 square1 = vec3(1.0, 1.0, 0.0) * inRect(pt1, vec2(0.7), center1);
-  vec3 square2 = vec3(0.0, 0.0, 1.0) * inRect(pt2, vec2(0.1), center2);
+  vec3 square2 = vec3(0.0, 0.0, 1.0) * inRect(pt2, vec2(0.2), center2);
   gl_FragColor = vec4(square1 + square2, 1.0);
 }
