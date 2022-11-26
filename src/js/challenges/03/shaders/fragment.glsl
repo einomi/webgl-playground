@@ -13,6 +13,12 @@ float inRect(vec2 pt, vec2 size, vec2 center) {
   return horz * vert;
 }
 
+float circle(vec2 pt, vec2 center, float radius, bool soften) {
+  vec2 p = pt - center;
+  float edge = soften ? radius * 0.7 : 0.0;
+  return 1.0 - smoothstep(radius - edge, radius + edge, length(p));
+}
+
 mat2 getRotationMatrix(float theta) {
   float s = sin(theta);
   float c = cos(theta);
@@ -26,14 +32,14 @@ mat2 getScaleMatrix(float scale) {
 void main(void ) {
   float tileCount = 15.0;
   mat2 rotationMatrix = getRotationMatrix(uTime);
-  mat2 scaleMatrix = getScaleMatrix((sin(uTime) + 1.0) / 3.0 + 0.5);
+  mat2 scaleMatrix = getScaleMatrix((sin(uTime) + 1.0) / 2.0 + 0.5);
   vec2 center1 = vec2(-3.0, 0.0);
   vec2 p = fract(vUv * tileCount);
   vec2 pt1 = rotationMatrix * scaleMatrix * (vPosition.xy - center1) + center1;
   mat2 rotationMatrix2 = getRotationMatrix(-uTime);
   vec2 center2 = vec2(0.5);
   vec2 pt2 = rotationMatrix2 * (p - center2) + center2;
-  vec3 square1 = vec3(1.0, 1.0, 0.0) * inRect(pt1, vec2(0.7), center1);
-  vec3 square2 = vec3(0.0, 0.0, 1.0) * inRect(pt2, vec2(0.2), center2);
+  vec3 square1 = vec3(1.0, 1.0, 0.0) * circle(pt1, center1, 0.7, true);
+  vec3 square2 = vec3(0.8, 0.0, 0.5) * inRect(pt2, vec2(0.2), center2);
   gl_FragColor = vec4(square1 + square2, 1.0);
 }
