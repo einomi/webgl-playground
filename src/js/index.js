@@ -1,2 +1,1 @@
-import './challenges/03/tiling';
-import './fake-image';
+import './challenges/04/target';
