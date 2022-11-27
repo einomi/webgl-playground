@@ -97,6 +97,6 @@ void main(void ) {
   color += axis_color * circle(v_position.xy, vec2(0.0), 0.5, 0.01, 0.001);
   color += axis_color * circle(v_position.xy, vec2(0.0), 0.3, 0.01, 0.001);
   color += vec3(0.4) * vec3(sin(v_uv.x), 0.0, 0.0);
-  color += sweep(v_uv, vec2(0.5), 0.3, 0.003, 0.001) * vec3(0.1, 0.3, 1.0);
+  color += sweep(v_uv, vec2(0.5), 0.3, 0.001, 0.001) * vec3(0.1, 0.3, 1.0);
   gl_FragColor = vec4(color, 1.0);
 }
