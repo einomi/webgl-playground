@@ -1,1 +1,1 @@
-import './challenges/04/target';
+import './challenges/05/noise';
