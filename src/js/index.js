@@ -1,1 +1,1 @@
-import './challenges/06/marble';
+import './challenges/07/ripple';
