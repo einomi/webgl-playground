@@ -1,1 +1,1 @@
-// import './challenges/08/images';
+import './challenges/08/images';
