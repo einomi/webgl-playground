@@ -1,4 +1,16 @@
-import { Camera, Mesh, Plane, Program, Renderer, Transform } from 'ogl';
+// @ts-nocheck
+import {
+  Camera,
+  Mesh,
+  Plane,
+  Program,
+  Renderer,
+  Texture,
+  Transform,
+} from 'ogl';
+
+import vertex from './shaders/vertex.glsl';
+import fragment from './shaders/fragment.glsl';
 
 const containerElement = document.querySelector('[data-container]');
 
@@ -27,38 +39,85 @@ resize();
 
 const scene = new Transform();
 
-const geometry = new Plane(gl, {
-  width: 100,
-  height: 100,
+let time = 0;
+
+/** @return {Object[]} */
+function createImages() {
+  const imgElements = /** @type {NodeListOf<HTMLElement> | null} */ (
+    document.querySelectorAll('[data-image]')
+  );
+
+  if (!imgElements) {
+    return [];
+  }
+
+  return Array.from(imgElements).map((image) => {
+    const bounds = image.getBoundingClientRect();
+
+    const geometry = new Plane(gl, {
+      width: bounds.width,
+      height: bounds.height,
+    });
+
+    const texture = new Texture(gl);
+    texture.image = image;
+
+    const program = new Program(gl, {
+      vertex,
+      fragment,
+      uniforms: {
+        tMap: { value: texture },
+        uTime: { value: time },
+      },
+    });
+
+    const mesh = new Mesh(gl, {
+      geometry,
+      program,
+    });
+
+    mesh.setParent(scene);
+
+    return {
+      image,
+      mesh,
+      top: bounds.top,
+      left: bounds.left,
+      width: bounds.width,
+      height: bounds.height,
+    };
+  });
+}
+
+/** @param {Object[]} imagesData */
+function setImagesPositions(imagesData) {
+  imagesData.forEach(({ mesh, width, height, top, left }) => {
+    mesh.position.x = -gl.canvas.width / 2 + width / 2 + left;
+    mesh.position.y = -gl.canvas.height / 2 + height / 2 + top;
+    // console.log('left', left);
+  });
+}
+
+let imagesData = [];
+
+window.addEventListener('load', () => {
+  imagesData = createImages();
+  setImagesPositions(imagesData);
 });
 
-const program = new Program(gl, {
-  vertex: /* glsl */ `
-            attribute vec3 position;
-
-            uniform mat4 modelViewMatrix;
-            uniform mat4 projectionMatrix;
-
-            void main() {
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-            }
-        `,
-  fragment: /* glsl */ `
-            void main() {
-                gl_FragColor = vec4(1.0);
-            }
-        `,
-});
-
-const mesh = new Mesh(gl, {
-  geometry,
-  program,
-});
-mesh.setParent(scene);
+function render() {
+  renderer.render({ scene, camera });
+}
 
 const update = () => {
+  time += 0.001;
+
   requestAnimationFrame(update);
 
-  renderer.render({ scene, camera });
+  imagesData.forEach(({ mesh }) => {
+    mesh.program.uniforms.uTime.value = time;
+  });
+
+  render();
 };
 requestAnimationFrame(update);
