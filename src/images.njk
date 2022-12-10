@@ -1,18 +1,15 @@
 {% extends './_layouts/base.njk' %}
 
 {% block title %}
-  Three.js – Test Exercise
+  Images and WebGL
 {% endblock %}
 
 {% block content %}
   <div>
     <canvas class="webgl"></canvas>
-{#    <div class="content">#}
-{#      <h1 class="title">Привет!</h1>#}
-{#    </div>#}
   </div>
 {% endblock %}
 
 {% block scripts %}
-  <script src="{{ STATIC_PATH }}/js/bundle.js"></script>
+  <script src="{{ STATIC_PATH }}/js/images.js"></script>
 {% endblock scripts %}

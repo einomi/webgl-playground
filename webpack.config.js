@@ -5,6 +5,7 @@ const IS_PRODUCTION = require('./env').IS_PRODUCTION;
 
 const entryPoints = {
   bundle: path.resolve(__dirname, 'src/js/index.js'),
+  images: path.resolve(__dirname, 'src/js/images.js'),
 };
 
 module.exports = {
@@ -13,7 +14,7 @@ module.exports = {
     return acc;
   }, {}),
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist/js'),
     publicPath: '/js',
   },
