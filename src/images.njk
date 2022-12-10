@@ -6,6 +6,15 @@
 
 {% block content %}
   <div data-container>
+    <div class="image-grid">
+      <div class="image-grid__inner">
+        {% for item in IMAGES %}
+          <div class="image-grid__item">
+            <img class="image-grid__item-image" src="{{ item.src }}" alt="">
+          </div>
+        {% endfor %}
+      </div>
+    </div>
   </div>
 {% endblock %}
 

@@ -1,0 +1,25 @@
+.image-grid {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+
+  &__inner {
+    display: grid;
+    max-width: 780px;
+    grid-gap: 5vw;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__item-image {
+    width: 10vw;
+    aspect-ratio: 1/1.5;
+    object-fit: cover;
+  }
+}
