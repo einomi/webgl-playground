@@ -1,8 +1,8 @@
 // @ts-nocheck
 import * as THREE from 'three';
 
-// import vertexShader from './shaders/vertex.glsl';
-// import fragmentShader from './shaders/fragment.glsl';
+import vertexShader from './shaders/vertex.glsl';
+import fragmentShader from './shaders/fragment.glsl';
 
 const canvas = document.querySelector('[data-canvas]');
 const renderer = new THREE.WebGLRenderer({
@@ -44,14 +44,15 @@ function createImages() {
     return [];
   }
 
-  // const shaderMaterial = new THREE.ShaderMaterial({
-  //   vertexShader,
-  //   fragmentShader,
-  //   uniforms: {
-  //     tMap: { value: 0 },
-  //     uTime: { value: time },
-  //   },
-  // });
+  const shaderMaterial = new THREE.ShaderMaterial({
+    vertexShader,
+    fragmentShader,
+    uniforms: {
+      tMap: { value: 0 },
+      uTime: { value: time },
+      aspectRatio: { value: 0 },
+    },
+  });
 
   const data = Array.from(imgElements).map((image, index) => {
     const imageResized = imgElementsResized[index];
@@ -67,11 +68,10 @@ function createImages() {
       imageResized.offsetWidth / imageResized.offsetHeight
     );
 
-    // const material = shaderMaterial.clone();
-    const material = new THREE.MeshBasicMaterial({
-      map: textureCover,
-    });
-    // material.uniforms.tMap.value = textureCover;
+    const material = shaderMaterial.clone();
+    material.uniforms.tMap.value = textureCover;
+    material.uniforms.aspectRatio.value =
+      imageResized.offsetWidth / imageResized.offsetHeight;
 
     const mesh = new THREE.Mesh(geometry, material);
 
@@ -127,16 +127,16 @@ const resize = () => {
 };
 window.addEventListener('resize', resize, false);
 
-// let time = 0;
+let time = 0;
 
 const update = () => {
-  // time += 0.001;
+  time += 0.001;
 
   requestAnimationFrame(update);
 
-  // imagesData.forEach(({ mesh }) => {
-  //   mesh.material.uniforms.uTime.value = time;
-  // });
+  imagesData.forEach(({ mesh }) => {
+    mesh.material.uniforms.uTime.value = time;
+  });
 
   render();
 };

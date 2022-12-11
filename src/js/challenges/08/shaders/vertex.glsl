@@ -1,4 +1,5 @@
 uniform float uTime;
+uniform float aspectRatio;
 
 varying vec2 vUv;
 varying float vNoise;
@@ -11,5 +12,5 @@ void main() {
   vec3 newPosition = position;
   newPosition.z += 10.0 * 10.0 * sin(dist * 10.0 + uTime * 10.0);
 
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
 }
