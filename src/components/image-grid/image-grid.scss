@@ -21,6 +21,10 @@
   &__item-image {
     width: 10vw;
     aspect-ratio: 1/1.5;
-    object-fit: cover;
+    //object-fit: cover;
   }
+}
+
+.fake-image {
+  display: none;
 }

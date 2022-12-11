@@ -10,12 +10,16 @@
       <div class="image-grid__inner">
         {% for item in IMAGES %}
           <div class="image-grid__item">
-            <img class="image-grid__item-image" src="{{ item.src }}" alt="" data-image>
+            <img class="image-grid__item-image" src="{{ item.src }}" alt="" data-resized-image>
           </div>
         {% endfor %}
       </div>
     </div>
+    <canvas class="canvas-image-grid" data-canvas></canvas>
   </div>
+  {% for item in IMAGES %}
+    <img class="fake-image" src="{{ item.src }}" alt="" data-image>
+  {% endfor %}
 {% endblock %}
 
 {% block scripts %}
