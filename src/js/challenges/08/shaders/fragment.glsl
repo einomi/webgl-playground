@@ -5,6 +5,7 @@ uniform float aspectRatio;
 
 varying vec2 vUv;
 varying vec3 vNormal;
+varying float vNoise;
 
 void main() {
   float c = cos(0.0);
@@ -16,4 +17,5 @@ void main() {
     (vUv - center) * mat2(aspectRatio * c, -aspectRatio * s, 1.0 * s, 1.0 * c);
   vec3 texture = texture2D(tMap, textureCoord + center).rgb;
   gl_FragColor = vec4(texture, 1.0);
+  gl_FragColor.rgb += 0.05 * vec3(vNoise);
 }

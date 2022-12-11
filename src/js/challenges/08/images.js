@@ -1,5 +1,6 @@
 // @ts-nocheck
 import * as THREE from 'three';
+import gsap from 'gsap';
 
 import vertexShader from './shaders/vertex.glsl';
 import fragmentShader from './shaders/fragment.glsl';
@@ -17,6 +18,16 @@ const scene = new THREE.Scene();
 const cameraDistance = 600;
 const camera = new THREE.PerspectiveCamera(35, 1, 0.01, 1000);
 camera.position.z = cameraDistance;
+
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+function onMouseMove(event) {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+}
+
+window.addEventListener('mousemove', onMouseMove, false);
 
 function textureFitCover(texture, aspect) {
   const imageAspect = texture.image.width / texture.image.height;
@@ -51,14 +62,27 @@ function createImages() {
       tMap: { value: 0 },
       uTime: { value: time },
       aspectRatio: { value: 0 },
+      hover: { value: new THREE.Vector2(0.5, 0.5) },
+      hoverState: { value: 0 },
     },
   });
 
-  const data = Array.from(imgElements).map((image, index) => {
-    const imageResized = imgElementsResized[index];
+  const imagesResized = Array.from(
+    document.querySelectorAll('[data-resized-image]')
+  );
+
+  const data = Array.from(imgElements).map((image) => {
+    const imageResized = imagesResized.find((item) => {
+      return item.getAttribute('src') === image.getAttribute('src');
+    });
     const bounds = imageResized.getBoundingClientRect();
 
-    const geometry = new THREE.PlaneGeometry(bounds.width, bounds.height, 1, 1);
+    const geometry = new THREE.PlaneGeometry(
+      bounds.width,
+      bounds.height,
+      10,
+      10
+    );
 
     const texture = new THREE.Texture(image);
     texture.needsUpdate = true;
@@ -76,6 +100,14 @@ function createImages() {
     const mesh = new THREE.Mesh(geometry, material);
 
     scene.add(mesh);
+
+    imageResized.addEventListener('mouseenter', () => {
+      gsap.to(material.uniforms.hoverState, { duration: 1, value: 1 });
+    });
+
+    imageResized.addEventListener('mouseleave', () => {
+      gsap.to(material.uniforms.hoverState, { duration: 1, value: 0 });
+    });
 
     return {
       image: imageResized,
@@ -97,7 +129,7 @@ function createImages() {
 function setImagesPositions(imagesData) {
   imagesData.forEach(({ mesh, width, height, top, left }) => {
     mesh.position.x = -window.innerWidth / 2 + width / 2 + left;
-    mesh.position.y = -window.innerHeight / 2 + height / 2 + top;
+    mesh.position.y = window.innerHeight / 2 - height / 2 - top;
   });
 }
 
@@ -130,12 +162,24 @@ window.addEventListener('resize', resize, false);
 let time = 0;
 
 const update = () => {
-  time += 0.001;
+  time += 0.01;
 
   requestAnimationFrame(update);
 
+  // update the picking ray with the camera and pointer position
+  raycaster.setFromCamera(mouse, camera);
+
+  // calculate objects intersecting the picking ray
+  const intersects = raycaster.intersectObjects(scene.children);
+
+  if (intersects.length) {
+    const obj = intersects[0].object;
+    obj.material.uniforms.hover.value = intersects[0].uv;
+  }
+
   imagesData.forEach(({ mesh }) => {
     mesh.material.uniforms.uTime.value = time;
+    // mesh.material.uniforms.hover.value = hover;
   });
 
   render();
