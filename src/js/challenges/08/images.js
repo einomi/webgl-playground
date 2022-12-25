@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import gsap from 'gsap';
 
 import vertexShader from './shaders/vertex.glsl';
-import fragmentShader from './shaders/fragment.glsl';
+import fragmentShader from './shaders/fragment2.glsl';
 
 const canvas = document.querySelector('[data-canvas]');
 const renderer = new THREE.WebGLRenderer({
@@ -162,7 +162,7 @@ window.addEventListener('resize', resize, false);
 let time = 0;
 
 const update = () => {
-  time += 0.01;
+  time += 0.001;
 
   requestAnimationFrame(update);
 
