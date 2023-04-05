@@ -1,0 +1,29 @@
+{% extends './_layouts/base.njk' %}
+
+{% block title %}
+  Three.js – Test Exercise
+{% endblock %}
+
+{% block content %}
+  {% set items = ['New Game', 'Load Game', 'Options', 'Exit'] %}
+
+
+  <div>
+    <img class="fixed w-full h-full left-0 top-0 object-cover" src="/scenery.png" alt="">
+{#    <img class="absolute right-0 top-0 h-full w-[70vw]" src="/menu.png" alt="">#}
+    <canvas class="fixed webgl opacity-0" data-canvas></canvas>
+    <ul class="absolute right-[10vw] top-[30vh] uppercase text-[50px] text-[#222]">
+      {% for item in items %}
+        <li class="mb-[20px] opacity-0 invisible" data-list-item>
+          <a href="#" class="hover:text-[#fff] active:text-[#eee]">{{ item }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ STATIC_PATH }}/js/mask.js"></script>
+{% endblock scripts %}

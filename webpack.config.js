@@ -6,6 +6,7 @@ const IS_PRODUCTION = require('./env').IS_PRODUCTION;
 const entryPoints = {
   bundle: path.resolve(__dirname, 'src/js/index.js'),
   images: path.resolve(__dirname, 'src/js/images.js'),
+  mask: path.resolve(__dirname, 'src/js/challenges/11/mask.js'),
 };
 
 module.exports = {
