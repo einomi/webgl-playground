@@ -68,10 +68,15 @@ void main() {
   // make waves
   float wave = sin(uv.y * 5.0 + u_time * 0.03) * 0.1;
   uv.y += wave;
+  //
+  //  // wave x
+  //  float waveX = sin(uv.x * 5.0 + u_time * 0.01) * 0.1;
+  //  uv.x += waveX;
 
-  // wave x
-  float waveX = sin(uv.x * 5.0 + u_time * 0.01) * 0.1;
-  uv.x += waveX;
+  // add cloud distortion
+  float cloud = cnoise(uv * 0.1 + u_time * 0.01);
+  uv.x += cloud * 0.1;
+  //  uv.y += cloud * 0.3;
 
   // rotate using noise
   float noise = cnoise(uv * 0.01 + u_time * 0.01);

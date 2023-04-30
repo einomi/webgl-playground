@@ -4,6 +4,8 @@ import gsap from 'gsap';
 import vertexShader from './shaders/vertex.glsl';
 import fragmentShader from './shaders/fragment.glsl';
 
+let elapsedTime = 0;
+
 const canvas = /** @type {HTMLCanvasElement} */ (
   document.querySelector('canvas.webgl')
 );
@@ -91,6 +93,36 @@ const material = new THREE.ShaderMaterial({
 const plane = new THREE.Mesh(geometry, material);
 scene.add(plane);
 
+const smokeTexture = new THREE.TextureLoader().load('/smoke.png');
+// scene.background = smokeTexture;
+smokeTexture.encoding = THREE.sRGBEncoding;
+const smokeGeometry = new THREE.PlaneGeometry(300, 300);
+const smokeMaterial = new THREE.MeshLambertMaterial({
+  map: smokeTexture,
+  emissive: '#eee',
+  opacity: 0.5,
+  transparent: true,
+  // wireframe: true
+});
+
+/** @type {THREE.Mesh[]} */
+const smokeElements = [];
+
+for (let smokeIndex = 0; smokeIndex < 20; smokeIndex += 1) {
+  const smokeElement = new THREE.Mesh(smokeGeometry, smokeMaterial);
+  const scale = Math.max(3, Math.random() * 9);
+  smokeElement.scale.set(scale, scale, scale);
+
+  // stick elements to the right side of the screen
+  smokeElement.position.x = window.innerWidth / 1.5;
+  smokeElement.position.y = Math.random() * 100 - 50;
+  smokeElement.position.z = Math.random() * 100 - 50;
+
+  smokeElement.rotation.z = Math.random() * 360;
+  scene.add(smokeElement);
+  smokeElements.push(smokeElement);
+}
+
 onWindowResize();
 if ('ontouchstart' in window) {
   document.addEventListener('touchmove', handleTouchMove);
@@ -135,6 +167,14 @@ function onWindowResize() {
 
 function animate() {
   requestAnimationFrame(animate);
-  uniforms.u_time.value += clock.getDelta();
+
+  elapsedTime += clock.getDelta();
+
+  uniforms.u_time.value = elapsedTime;
+
+  smokeElements.forEach((smokeElement) => {
+    smokeElement.rotation.z = elapsedTime * 0.12;
+  });
+
   renderer.render(scene, camera);
 }

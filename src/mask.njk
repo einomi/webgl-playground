@@ -9,13 +9,12 @@
 
 
   <div>
-    <img class="fixed w-full h-full left-0 top-0 object-cover" src="/scenery.png" alt="">
-{#    <img class="absolute right-0 top-0 h-full w-[70vw]" src="/menu.png" alt="">#}
+    <img class="fixed w-full h-full left-0 top-0 object-cover" src="/scenery.jpg" alt="">
     <canvas class="fixed webgl opacity-0" data-canvas></canvas>
-    <ul class="absolute right-[10vw] top-[30vh] uppercase text-[50px] text-[#222]">
+    <ul class="absolute right-[7vw] top-[30vh] uppercase text-[50px] text-[#444] font-medium">
       {% for item in items %}
         <li class="mb-[20px] opacity-0 invisible" data-list-item>
-          <a href="#" class="hover:text-[#fff] active:text-[#eee]">{{ item }}</a>
+          <a href="#" class="hover:text-[#5384af] active:text-[#33608d]">{{ item }}</a>
         </li>
       {% endfor %}
     </ul>
